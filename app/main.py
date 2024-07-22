@@ -308,7 +308,7 @@ def mark_habit_complete(user):
         console.print("Invalid input. Please enter a valid habit number.")
 
     next_step = Prompt.ask(
-        "Enter '1' to Continue or '2' to return to Habit Status Management menu or ",
+        "Enter '1' to Continue or '2' to return to Habit Status Management menu  ",
         choices=["1", "2"], default="2")
     if next_step == '1':
         mark_habit_complete(user)
@@ -345,7 +345,7 @@ def deactivate_habits(user):
         deactivate_habits(user)
 
     next_step = Prompt.ask(
-        "Enter '1' return to Dashboard or '2' to return to Habit Status Management menu or "
+        "Enter '1' return to Dashboard or '2' to return to Habit Status Management menu or"
         "Press any other key to Continue",
         choices=["1", "2"], default="2")
     if next_step == '1':
@@ -439,7 +439,7 @@ def delete_habit(user):
             console.print(f"Failed to delete habit: {str(e)}")
 
         next_step = Prompt.ask(
-            "Enter '1' return to Dashboard or '2' to return to Habit Status Management menu or "
+            "Enter '1' return to Dashboard or '2' to return to Habit Status Management menu or"
             "Press any other key to Continue",
             choices=["1", "2"], default="2")
         if next_step == '1':
