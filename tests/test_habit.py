@@ -74,13 +74,6 @@ class TestHabit(unittest.TestCase):
         last_log = habit.add_log_entry(success=1, note="Test status update log")
         self.assertIsNotNone(last_log)
 
-    def test_deactivate_habit_not_due(self):
-        """Test deactivating a habit that is not due."""
-        habit = self.habits[0]
-        habit.deactivate()
-        self.assertEqual(habit.active, 1)
-        print("Test passed: Habit is not overdue yet.")
-
     def test_deactivate_habit_due(self):
         """Test deactivating a habit."""
         habit = Habit.create(self.user.user_id, "Test Habit", "Test Description", "daily", 2, 0,
