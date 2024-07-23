@@ -13,12 +13,14 @@ from rich.text import Text
 console = Console()
 
 
+# Initialize the console for rich text output
 def main_menu():
+    # Display ASCII banner and main menu options
     ascii_banner = pyfiglet.figlet_format("""
     Welcome to the
       Habit Tracker
     """)
-    console.print(Text(ascii_banner, style="cyan"))
+    console.print(Text(ascii_banner, style="cyan"))  # Print the banner in cyan
     console.print("\nUnlock your potential by building healthy habits. Log in or register to start your journey today!")
     console.print("1. Register New User")
     console.print("2. Log In")
@@ -26,6 +28,7 @@ def main_menu():
     console.print("4. Exit")
 
     while True:
+        # Prompt user to choose an option from the menu
         choice = Prompt.ask("Choose an option", choices=["1", "2", "3", "4"], default="4").strip()
 
         if choice == '1':
@@ -42,6 +45,7 @@ def main_menu():
 
 
 def how_to_use():
+    # Print instructions on how to use the Habit Tracker App
     console.print("[bold green]How to Use the Habit Tracker App:[/bold green]\n")
 
     console.print("[bold]1. Register New User[/bold]")
@@ -87,6 +91,7 @@ def how_to_use():
 
 
 def login():
+    # Handle user login
     console.print("\nLogin")
     username = Prompt.ask("Enter username")
     user = User.get_by_username(username)
@@ -124,6 +129,7 @@ def login():
 
 
 def forgot_password():
+    # Handle password recovery
     console.print("\nForgot Password")
     username = Prompt.ask("Enter username")
     user_id = Prompt.ask("Enter user ID")
@@ -144,6 +150,7 @@ def forgot_password():
 
 
 def register():
+    # Handle user registration
     console.print("\nRegister as a new user")
     username = Prompt.ask("Enter username")
     password = Prompt.ask("Enter password")
@@ -151,7 +158,7 @@ def register():
 
     if password != confirm_password:
         console.print("Passwords do not match. Please try again.\n")
-        register()
+        register()  # Re-run registration if passwords do not match
         return
 
     created_at = datetime.now().isoformat()  # or however you manage timestamps in your application
@@ -168,6 +175,7 @@ def register():
 
 
 def dashboard(user):
+    # Display user dashboard
     now = datetime.now().strftime("%d %B %Y")
     console.print(f"Today's date is [bold cyan]{now}[/bold cyan]!")
     console.print("Remember to mark your habits to maintain your streak!")
@@ -212,6 +220,7 @@ def dashboard(user):
 
 
 def create_habit(user):
+    # Handle creation of a new habit
     console.print("Create a Habit")
 
     while True:
@@ -253,6 +262,7 @@ def create_habit(user):
 
 
 def habit_status_management(user):
+    # Manage habit statuses
     console.print("\nHabit Status Management:")
     console.print("1. Mark Habit Complete")
     console.print("2. Deactivate Overdue Habits")
@@ -278,11 +288,11 @@ def habit_status_management(user):
 
 
 def mark_habit_complete(user):
+    # Mark the habit complete daily or weekly depending on the habit
     habits = get_active_habits_with_names(user.user_id)
     if not habits:
         console.print("No active habits found.")
         return
-
     table = Table(title="Active Habits")
     table.add_column("Habit ID", style="cyan")
     table.add_column("Habit Name", style="magenta")
@@ -308,7 +318,7 @@ def mark_habit_complete(user):
         console.print("Invalid input. Please enter a valid habit number.")
 
     next_step = Prompt.ask(
-        "Enter '1' to Continue or '2' to return to Habit Status Management menu  ",
+        "Enter '1' to Continue or '2' to return to Habit Status Management menu ",
         choices=["1", "2"], default="2")
     if next_step == '1':
         mark_habit_complete(user)
@@ -317,6 +327,7 @@ def mark_habit_complete(user):
 
 
 def deactivate_habits(user):
+    # Deactivate(active=0) a habit that is overdue
     habits = get_active_habits_with_names(user.user_id)
     if not habits:
         console.print("No active habits found.")
@@ -345,7 +356,7 @@ def deactivate_habits(user):
         deactivate_habits(user)
 
     next_step = Prompt.ask(
-        "Enter '1' return to Dashboard or '2' to return to Habit Status Management menu or"
+        "Enter '1' return to Dashboard or '2' to return to Habit Status Management menu or "
         "Press any other key to Continue",
         choices=["1", "2"], default="2")
     if next_step == '1':
@@ -357,6 +368,7 @@ def deactivate_habits(user):
 
 
 def update_habit(user):
+    # Activates and updates an existing habit creating a new deadline
     console.print("\nUpdate Habit")
 
     habits = Habit.get_all_by_user(user.user_id)
@@ -404,6 +416,7 @@ def update_habit(user):
 
 
 def delete_habit(user):
+    # Habits are deleted here
     console.print("\nDelete Habit")
 
     habits = Habit.get_all_by_user(user.user_id)
@@ -439,7 +452,7 @@ def delete_habit(user):
             console.print(f"Failed to delete habit: {str(e)}")
 
         next_step = Prompt.ask(
-            "Enter '1' return to Dashboard or '2' to return to Habit Status Management menu or"
+            "Enter '1' return to Dashboard or '2' to return to Habit Status Management menu or "
             "Press any other key to Continue",
             choices=["1", "2"], default="2")
         if next_step == '1':
@@ -451,6 +464,7 @@ def delete_habit(user):
 
 
 def profile_management(user):
+    # A user can update their username and/or password or delete their accounts which will delete their habits as well
     while True:
         console.print("\nProfile Management:")
         console.print("1. Update Profile")
@@ -497,6 +511,7 @@ def profile_management(user):
 
 def analytics(user):
     def analytics_menu():
+        # Display analytics options
         while True:
             console.print("\n[bold green]Analytics Menu:[/bold green]")
             console.print("1. View Habits by Periodicity")
@@ -530,6 +545,7 @@ def analytics(user):
 
 
 def view_habits_by_periodicity(user):
+    # Prompts the user to select daily/weekly then views the associated habits
     while True:
         periodicity = Prompt.ask("Enter periodicity (daily, weekly)", choices=["daily", "weekly"]).strip().lower()
         habits_by_periodicity = get_habits_by_periodicity(user.user_id, periodicity)
@@ -545,6 +561,7 @@ def view_habits_by_periodicity(user):
 
 
 def view_longest_streak_all_habits(user):
+    # Views the habit with the longest streak
     longest_streak_habit = get_longest_streak_all_habits(user.user_id)
 
     if longest_streak_habit:
@@ -561,6 +578,7 @@ def view_longest_streak_all_habits(user):
 
 
 def view_longest_streak_for_habit(user):
+    # Views the longest streak of each habit
     habits = get_active_habits_with_names(user.user_id)
 
     if not habits:
@@ -583,6 +601,7 @@ def view_longest_streak_for_habit(user):
 
 
 def view_completion_rate_for_habit(user):
+    # Views the completion rate of a selected habit
     habits = get_active_habits_with_names(user.user_id)
 
     if not habits:
@@ -612,6 +631,7 @@ def view_completion_rate_for_habit(user):
 
 
 def analyze_logs_for_habit(user):
+    # Analyses the logs of a selected habit
     habits = get_active_habits_with_names(user.user_id)
 
     if not habits:
@@ -672,6 +692,7 @@ def handle_return_option(user, current_function):
 
 
 def log_out(user):
+    # User can log out then be directed to the main menu where they can exist the application or login again
     while True:
         confirmation = Prompt.ask("Are you sure you want to log out? (yes/no)", choices=["yes", "no"], default="no")
         if confirmation.lower() == 'yes':
@@ -687,3 +708,4 @@ def log_out(user):
 
 if __name__ == "__main__":
     main_menu()
+
