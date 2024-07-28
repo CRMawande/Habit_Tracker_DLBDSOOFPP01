@@ -89,5 +89,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Contact
 
-For any inquiries or feedback, please contact [charmaine.mawande@gmail.com](mailto:charmaine.mawande@gmail.com).
+For any inquiries or feedback, please contact [charmaine.mawande@iu-study.org](mailto:charmaine.mawande@iu-study.org).
 
